@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRM 화면정의서</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#1f2633;font:14px/1.6 Pretendard,"Noto Sans KR",system-ui,sans-serif}.wrap{width:min(1080px,calc(100% - 36px));margin:0 auto;padding:54px 0 80px}.eyebrow{color:#315bd6;font-size:12px;font-weight:900;letter-spacing:.12em}.hero h1{font-size:34px;letter-spacing:-1.3px;margin:6px 0}.hero p{color:#657083;margin:0}.summary{display:flex;gap:10px;margin:26px 0}.summary span{background:#fff;border:1px solid #e0e5ee;border-radius:9px;padding:10px 14px}.summary strong{margin-right:5px}.toolbar{display:flex;justify-content:space-between;align-items:end;margin:38px 0 12px}.toolbar h2{font-size:19px;margin:0}.toolbar small{color:#788294}.card{display:grid;grid-template-columns:1fr auto;gap:18px;background:#fff;border:1px solid #dfe4ed;border-radius:12px;padding:22px;box-shadow:0 8px 24px rgba(36,52,79,.05)}.titleline{display:flex;align-items:center;gap:9px}.titleline h3{font-size:18px;margin:0}.badge{font-size:11px;font-weight:800;color:#8a5a00;background:#fff2cd;border-radius:20px;padding:3px 8px}.desc{color:#667185;margin:8px 0 14px}.meta{display:flex;gap:9px 18px;flex-wrap:wrap;color:#778194;font-size:12px}.actions{display:flex;align-items:center;gap:8px}.btn{display:inline-block;text-decoration:none;border-radius:7px;padding:9px 13px;font-weight:800;white-space:nowrap}.primary{background:#285bd7;color:#fff}.secondary{border:1px solid #ccd4e0;color:#3e4859}.note{margin-top:20px;background:#eef4ff;border:1px solid #dce7ff;color:#496287;border-radius:9px;padding:13px 15px}.foot{margin-top:40px;color:#7b8493;font-size:12px}@media(max-width:700px){.wrap{padding-top:30px}.hero h1{font-size:27px}.summary{flex-direction:column}.card{grid-template-columns:1fr}.actions{align-items:flex-start}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero"><div class="eyebrow">WESEED · CRM</div><h1>화면정의서</h1><p>기능별 ScreenSpec 공유본과 변경 이력을 관리합니다.</p></header>
+  <div class="summary"><span><strong>1</strong>기능</span><span><strong>1</strong>버전</span><span><strong>3</strong>화면</span></div>
+  <div class="toolbar"><h2>기능 목록</h2><small>최근 변경 2026.08.26</small></div>
+  <article class="card">
+    <div><div class="titleline"><h3>문의관리</h3><span class="badge">검토 중</span></div><p class="desc">CRM 문의 목록·등록·상세와 조회 권한, 문의 상태, 유형별 작성 안내</p><div class="meta"><span>최신 v1</span><span>SCR-INQ-LST-001</span><span>SCR-INQ-REG-002</span><span>SCR-INQ-DTL-003</span></div></div>
+    <div class="actions"><a class="btn primary" href="./features/inquiry/v1/">고정 v1 열기</a><a class="btn secondary" href="./features/inquiry/">최신본</a></div>
+  </article>
+  <div class="note"><strong>링크 사용 기준</strong><br>개발 티켓에는 변경되지 않는 <code>/v1/</code> 링크를 기록하고, 최신본 확인용으로만 기능 루트 링크를 사용합니다.</div>
+  <footer class="foot">CRM Screen Specs · GitHub Pages 배포용</footer>
+</main>
+</body>
+</html>

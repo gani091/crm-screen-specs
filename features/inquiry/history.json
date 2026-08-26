@@ -1,0 +1,20 @@
+{
+  "feature": "inquiry",
+  "name": "문의관리",
+  "latest": "v1",
+  "versions": [
+    {
+      "version": "v1",
+      "status": "review",
+      "date": "2026-08-26",
+      "summary": "CRM 문의 목록·등록·상세 화면과 조회 권한, 문의 상태, 유형별 작성 안내 예시",
+      "screens": [
+        "SCR-INQ-LST-001",
+        "SCR-INQ-REG-002",
+        "SCR-INQ-DTL-003"
+      ],
+      "supersedes": null,
+      "path": "./v1/"
+    }
+  ]
+}
