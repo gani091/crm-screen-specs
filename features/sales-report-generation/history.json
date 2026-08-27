@@ -1,8 +1,17 @@
 {
   "feature": "sales-report-generation",
   "name": "영업보고서 생성 방법 개선",
-  "latest": "v5",
+  "latest": "v6",
   "versions": [
+    {
+      "version": "v6",
+      "status": "review",
+      "date": "2026-08-27",
+      "summary": "ID 기반 중복 제거·선택 상태, 조회조건 검증과 초기화, 전체 기본 선택, 상세 미리보기, 저장 후 제목·비고 전용 수정 정책 반영",
+      "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003"],
+      "supersedes": "v5",
+      "path": "./v6/"
+    },
     {
       "version": "v5",
       "status": "review",
