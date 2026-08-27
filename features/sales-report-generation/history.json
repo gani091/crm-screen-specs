@@ -1,8 +1,17 @@
 {
   "feature": "sales-report-generation",
   "name": "영업보고서 생성 방법 개선",
-  "latest": "v3",
+  "latest": "v4",
   "versions": [
+    {
+      "version": "v4",
+      "status": "review",
+      "date": "2026-08-27",
+      "summary": "등록 모달 기본 크기와 내부 스크롤 적용, 보고 대상의 유형 필터·유형별 그룹·그룹 전체 선택 UX 개선",
+      "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003"],
+      "supersedes": "v3",
+      "path": "./v4/"
+    },
     {
       "version": "v3",
       "status": "review",
