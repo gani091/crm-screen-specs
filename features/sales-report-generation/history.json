@@ -7,7 +7,7 @@
       "version": "v7",
       "status": "review",
       "date": "2026-08-27",
-      "summary": "목록과 조회의 담당부서·담당자 분리 표시 및 담당자명 전체 노출, 대형 수정 모달과 제목·특이사항 전용 편집",
+      "summary": "네 업무유형 각 1건 이상 저장 조건과 0건 영역 숨김, 수정 모달 담당부서·담당자 분리, 등록·수정 생성 버튼 UI 통일",
       "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003"],
       "supersedes": "v6",
       "path": "./v7/"
