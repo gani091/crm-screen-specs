@@ -22,7 +22,7 @@ const rawWork=[{id:"activity-001",type:"영업활동",title:"요구사항 협의
 let directUsers=new Set(["user-001","user-002"]),work=[],generated=false,activeTab="found",activeType="전체",saved=[];
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const workDate=$('#workDate'),company=$('#company'),customer=$('#customer'),department=$('#department'),deptInfo=$('#deptInfo'),chips=$('#chips'),personSelect=$('#personSelect'),conditionError=$('#conditionError'),changedNotice=$('#changedNotice'),results=$('#results'),saveBtn=$('#saveBtn'),foundCount=$('#foundCount'),selectedCount=$('#selectedCount'),typebar=$('#typebar'),resultCards=$('#resultCards'),preview=$('#preview'),previewContent=$('#previewContent'),previewClose=$('#previewClose'),title=$('#title'),note=$('#note'),detailActivities=$('#detailActivities'),detailOpportunities=$('#detailOpportunities'),detailConsults=$('#detailConsults'),detailSales=$('#detailSales'),detailTitle=$('#detailTitle'),detailNote=$('#detailNote'),detailDate=$('#detailDate'),detailTarget=$('#detailTarget'),openRegister=$('#openRegister'),reportRow=$('#reportRow'),createBtn=$('#createBtn'),editBtn=$('#editBtn'),editScreen=$('#editScreen'),editTitle=$('#editTitle'),editNote=$('#editNote'),editClose=$('#editClose'),editCancel=$('#editCancel'),editSave=$('#editSave'),alertLayer=$('#alertLayer'),alertMessage=$('#alertMessage'),alertOk=$('#alertOk');
-function screen(id,spec){$$('.overlay:not(#editScreen)').forEach(x=>x.classList.remove('on'));if(id)$(id).classList.add('on');if(spec&&window.ScreenSpec)ScreenSpec.setScreen(spec)}
+function screen(id,spec){$$('.overlay').forEach(x=>x.classList.remove('on'));if(id)$(id).classList.add('on');if(spec&&window.ScreenSpec)ScreenSpec.setScreen(spec)}
 function targetIds(){const ids=new Set(directUsers);const d=departments[department.value];if(d)d.userIds.forEach(id=>ids.add(id));return ids}
 function targetLabel(){const d=departments[department.value];const names=[...directUsers].filter(id=>!d||!d.userIds.includes(id)).map(id=>users[id].name);return [d&&d.name,names.length&&(names[0]+(names.length>1?` 외 ${names.length-1}명`:''))].filter(Boolean).join(' + ')}
 function renderChips(){chips.innerHTML=[...directUsers].map(id=>`<div class="chip" data-user-id="${id}">${users[id].name} (${users[id].dept}) <button class="remove-person" data-user-id="${id}">×</button><small>${users[id].phone}</small></div>`).join('');$$('.remove-person').forEach(b=>b.onclick=()=>{directUsers.delete(b.dataset.userId);renderChips();conditionChanged()})}
@@ -46,34 +46,42 @@ const detailDelete=document.querySelector('#detailScreen .mfoot .ghost');detailD
 alertOk.onclick=()=>alertLayer.classList.remove('on');alertLayer.onclick=e=>{if(e.target===alertLayer)alertLayer.classList.remove('on')};
 saveBtn.onclick=()=>{if(!work.length){showAlert('조회된 데이터가 없습니다.');return}if(!count('전체',true)){showAlert('영업보고서에 포함할 업무를 1건 이상 선택해 주세요.');return}listDetailMode=false;saved=work.filter(x=>x.selected).map(x=>({...x}));renderDetail();screen('#detailScreen','SCR-SRP-DTL-002')};
 const editFilter=document.querySelector('#editScreen .edit-filter'),editDepartmentField=editFilter.querySelectorAll('.field')[3],editGenerateButton=editFilter.querySelector('.primary');editDepartmentField.querySelector('label').textContent='담당부서';editDepartmentField.querySelector('option').textContent='사업전략팀';editDepartmentField.insertAdjacentHTML('afterend','<div class="field"><label>담당자</label><select class="control" disabled><option>김민수, 이서연</option></select></div>');createBtn.classList.add('generate-action');editGenerateButton.classList.add('generate-action');
+editScreen.removeAttribute('data-ss-ignore');editScreen.setAttribute('data-ss-screen','SCR-SRP-DTL-004');document.querySelector('#registerScreen [data-spec="1"]').removeAttribute('data-spec');workDate.closest('.field').setAttribute('data-spec','1');document.querySelector('#detailScreen .mfoot').setAttribute('data-spec','7');const editSections=editScreen.querySelectorAll('.section');editSections[0].setAttribute('data-spec','1');editSections[1].setAttribute('data-spec','2');editScreen.querySelector('.mfoot').setAttribute('data-spec','3');
 const originalGenerate=generate;createBtn.onclick=()=>{originalGenerate();if(!generated)return;if(!work.length){saveBtn.disabled=true;showAlert('조회된 데이터가 없습니다.')}};
 const renderDetailWithTarget=renderDetail;renderDetail=()=>{renderDetailWithTarget();[['영업활동',detailActivities],['영업기회',detailOpportunities],['고객상담',detailConsults],['판매',detailSales]].forEach(([type,container])=>{container.closest('.detailsec').hidden=!saved.some(item=>item.type===type)})};const openExistingReport=reportRow.onclick;reportRow.onclick=()=>{openExistingReport();saved=[...new Map(rawWork.map(item=>[item.id,{...item}])).values()];renderDetail()};
 saveBtn.onclick=()=>{if(!work.length){showAlert('조회된 데이터가 없습니다.');return}const selected=work.filter(item=>item.selected);if(!selected.length){showAlert('영업보고서에 포함할 업무를 1건 이상 선택해 주세요.');return}listDetailMode=false;saved=selected.map(item=>({...item}));renderDetail();screen('#detailScreen','SCR-SRP-DTL-002')};
-addEventListener('load',()=>{const roots=$$('[data-ss-screen]');let syncing=false;const selectors={'SCR-SRP-DTL-001':'#registerScreen','SCR-SRP-DTL-002':'#detailScreen'};const syncScreenSpecSelection=()=>{if(syncing||!window.ScreenSpec)return;const id=ScreenSpec.current(),selector=selectors[id];syncing=true;$$('.overlay').forEach(x=>x.classList.remove('on'));if(selector)$(selector).classList.add('on');syncing=false};const screenObserver=new MutationObserver(records=>{if(records.some(record=>record.attributeName==='style'))queueMicrotask(syncScreenSpecSelection)});roots.forEach(root=>screenObserver.observe(root,{attributes:true,attributeFilter:['style']}))});
+editBtn.onclick=()=>{editTitle.value=detailTitle.textContent;editNote.value=detailNote.textContent;screen('#editScreen','SCR-SRP-DTL-004')};editClose.onclick=editCancel.onclick=()=>screen('#detailScreen','SCR-SRP-DTL-002');editSave.onclick=()=>{detailTitle.textContent=editTitle.value;detailNote.textContent=editNote.value;screen('#detailScreen','SCR-SRP-DTL-002')};
+addEventListener('load',()=>{const roots=$$('[data-ss-screen]');let syncing=false;const selectors={'SCR-SRP-DTL-001':'#registerScreen','SCR-SRP-DTL-002':'#detailScreen','SCR-SRP-DTL-004':'#editScreen'};const syncScreenSpecSelection=()=>{if(syncing||!window.ScreenSpec)return;const id=ScreenSpec.current(),selector=selectors[id];syncing=true;$$('.overlay').forEach(x=>x.classList.remove('on'));if(selector)$(selector).classList.add('on');syncing=false};const screenObserver=new MutationObserver(records=>{if(records.some(record=>record.attributeName==='style'))queueMicrotask(syncScreenSpecSelection)});roots.forEach(root=>screenObserver.observe(root,{attributes:true,attributeFilter:['style']}))});
 </script>
 <script>
 window.SCREENSPEC={baseViewport:'pc',devices:{pc:{w:1920,h:1080}},screens:[
 {id:'SCR-SRP-DTL-001',name:'영업보고서 등록',path:['영업관리','영업보고서','등록'],root:'#registerScreen',specs:[
-{n:1,target:'1',anno:'input',title:'조회 조건',defs:[{t:'업무일 필수',subs:['미입력 후 생성 클릭 : 업무시작일·업무종료일 알림 표시']},{t:'담당부서 또는 담당자 중 하나 이상 선택 필수'},{t:'조회조건 : 업무기간 AND 고객사 AND 고객 AND 담당자 조건'},{t:'권한 : 현재 로그인 사용자의 기존 CRM 조회 권한 유지'}]},
-{n:2,target:'2',anno:'input',title:'담당부서',defs:[{t:'선택 : 부서 직접 소속 사용자 전체 포함'},{t:'하위부서 자동 포함 불가'},{t:'표시 : 선택 부서명과 포함 인원'},{t:'0건 확인 : 영업2팀 선택 후 생성 클릭'}]},
-{n:3,target:'3',anno:'input',title:'담당자',defs:[{t:'담당자 멀티 선택 가능'},{t:'삭제한 담당자 재선택 가능'},{t:'담당부서 소속 사용자 OR 직접 선택 담당자'},{t:'중복 : 사용자 고유 ID 기준 1명으로 처리'}]},
-{n:4,target:'4',anno:'input',title:'제목과 비고',defs:[{t:'제목과 비고 입력'},{t:'저장 이후 수정 가능 항목 : 제목 / 비고'}]},
-{n:5,target:'5',anno:'state',title:'보고 대상 선택',defs:[{t:'업무 고유 ID 기준 중복 제거'},{t:'최초 조회 결과 전체 선택'},{t:'개별 업무와 유형별 전체 선택 가능'},{t:'선택값 : 전체 / 영업활동 / 영업기회 / 상담 / 판매',subs:['조회 0건 후 생성·저장 클릭 : 조회된 데이터가 없습니다. 알림 표시']}]},
-{n:6,target:'6',anno:'flow',title:'저장',flowTo:'SCR-SRP-DTL-002',play:{selector:'#saveBtn',label:'선택 업무로 보고서 저장'},defs:[{t:'영업활동·영업기회·상담·판매 합산 1건 이상 필수'},{t:'전체 조회 결과 0건 시 보고서 저장 불가'},{t:'저장 시점의 선택 업무 데이터 확정'},{t:'판매 합계 : 최종 선택 판매건 기준'}]}
+{n:1,target:'1',anno:'input',title:'업무일',defs:[{t:'유지 : 필수 입력'},{t:'미입력 후 생성 클릭 : 업무시작일·업무종료일 알림 표시'}]},
+{n:2,target:'2',anno:'input',title:'담당부서',defs:[{t:'TO-BE : 담당부서 조회조건 추가 및 복수 선택 가능'},{t:'조회 대상 : 선택 부서에 직접 소속된 담당자의 업무'},{t:'부서 역할 : 하위부서에서 상위부서 선택 불가',subs:['상위부서 선택 시 하위부서 인원 자동 포함 불가','선택 부서의 직접 소속 팀원만 포함']},{t:'담당자와 동시 선택 가능',subs:['중복 담당자 : 사용자 고유 ID 기준 1명으로 조회']}]},
+{n:3,target:'3',anno:'input',title:'담당자',defs:[{t:'TO-BE : 담당자 복수 선택 가능'},{t:'기본값 : 로그인 사용자 본인'},{t:'담당부서와 동시 선택 가능',subs:['담당부서 또는 담당자 중 하나 이상 선택 필수','중복 담당자 : 사용자 고유 ID 기준 1명으로 조회']}]},
+{n:4,target:'4',anno:'input',title:'제목과 비고',defs:[{t:'유지 : 제목과 비고 입력 영역'},{t:'유지 : 기존 입력 및 글자수 정책 적용'}]},
+{n:5,target:'5',anno:'state',title:'영업보고 대상',defs:[{t:'TO-BE : 생성 클릭 후 영업보고 대상 영역 표시'},{t:'조회 결과 : 업무기간과 조회 대상에 해당하는 영업활동·영업기회·고객상담·판매 전체'},{t:'개별 업무와 유형별 전체 선택 가능'},{t:'선택 결과 : 조회 화면에 선택한 업무만 표시',subs:['선택 0건 후 저장 클릭 : 저장 불가 알림 표시','전체 조회 결과 0건 : 조회된 데이터가 없습니다. 알림 표시']}]},
+{n:6,target:'6',anno:'flow',title:'취소와 저장',flowTo:'SCR-SRP-DTL-002',play:{selector:'#saveBtn',label:'선택 업무로 보고서 저장'},defs:[{t:'유지 : 취소와 저장 버튼 동작'},{t:'저장 클릭 : 선택 업무로 보고서 생성 후 목록에 추가'},{t:'저장 완료 : 영업보고서 조회 화면 이동'}]}
 ]},
 {id:'SCR-SRP-DTL-002',name:'영업보고서 조회',path:['영업관리','영업보고서','조회'],root:'#detailScreen',specs:[
-{n:1,target:'1',anno:'box',title:'보고서 기본 정보',defs:[{t:'업무일·담당부서·담당자·등록일·제목·특이사항 표시'},{t:'담당부서와 담당자 : 목록과 동일한 기준으로 분리 표시'},{t:'담당자 : 선택된 담당자명 전체 표시'},{t:'수정 클릭 : 제목 / 특이사항 전용 수정 팝업 표시'}]},
-{n:2,target:'2',anno:'flow',title:'영업활동',defs:[{t:'메타관리 > 영업활동 > 보고서 탭 사용여부 설정 적용'},{t:'저장 시 선택된 영업활동만 표시'},{t:'0건 : 영업활동 영역 미표시'}]},
-{n:3,target:'3',anno:'flow',title:'영업기회',defs:[{t:'메타관리 > 영업기회 > 보고서 탭 사용여부 설정 적용'},{t:'저장 시 선택된 영업기회만 표시'},{t:'0건 : 영업기회 영역 미표시'}]},
-{n:4,target:'4',anno:'flow',title:'고객상담',defs:[{t:'메타관리 > 고객상담 > 보고서 탭 사용여부 설정 적용'},{t:'저장 시 선택된 고객상담만 표시'},{t:'0건 : 고객상담 영역 미표시'}]},
-{n:5,target:'5',anno:'box',title:'판매내역',defs:[{t:'메타관리 > 판매 > 보고서 탭 사용여부 설정 적용'},{t:'저장 시 선택된 판매건만 표시'},{t:'0건 : 판매내역 영역 미표시'},{t:'합계 : 최종 선택 판매건 금액 합산'}]},
-{n:6,target:'6',anno:'input',title:'댓글 등록',defs:[{t:'의견 유형·내용·공유 대상·참조자 입력'}]}
+{n:1,target:'1',anno:'box',title:'영업보고서 기본 정보',defs:[{t:'TO-BE : 담당부서와 담당자 항목 분리 표시'},{t:'담당자 : 선택된 담당자명 전체 표시'}]},
+{n:2,target:'2',anno:'flow',title:'영업활동',defs:[{t:'TO-BE : 등록 시 선택한 영업활동만 표시'},{t:'유지 : 메타관리 > 영업활동 > 보고서 탭의 노출 항목 설정 적용'},{t:'유지 : 0건이면 영업활동 영역 미표시'},{t:'유지 : 자세히 보기 클릭 시 영업활동 조회 이동'}]},
+{n:3,target:'3',anno:'flow',title:'영업기회',defs:[{t:'TO-BE : 등록 시 선택한 영업기회만 표시'},{t:'유지 : 메타관리 > 영업기회 > 보고서 탭의 노출 항목 설정 적용'},{t:'유지 : 0건이면 영업기회 영역 미표시'},{t:'유지 : 표 행 클릭 시 영업기회 조회 이동'}]},
+{n:4,target:'4',anno:'flow',title:'고객상담',defs:[{t:'TO-BE : 등록 시 선택한 고객상담만 표시'},{t:'유지 : 메타관리 > 고객상담 > 보고서 탭의 노출 항목 설정 적용'},{t:'유지 : 0건이면 고객상담 영역 미표시'},{t:'유지 : 자세히 보기 클릭 시 고객상담 조회 이동'}]},
+{n:5,target:'5',anno:'box',title:'판매내역',defs:[{t:'TO-BE : 등록 시 선택한 판매건만 표시'},{t:'TO-BE : 최종 선택 판매건 금액 합계 표시'},{t:'유지 : 0건이면 판매내역 영역 미표시'},{t:'유지 : 표 행 클릭 시 판매 조회 이동'}]},
+{n:6,target:'6',anno:'box',title:'댓글 등록',defs:[{t:'변경 없음 : 기존 의견 공유 기능 유지'}]},
+{n:7,target:'7',anno:'flow',title:'조회 하단 버튼',flowTo:'SCR-SRP-DTL-004',play:{selector:'#editBtn',label:'수정 화면 열기'},defs:[{t:'TO-BE : 수정 클릭 시 영업보고서 수정 화면 이동'}]}
 ]},
 {id:'SCR-SRP-DTL-003',name:'영업보고서 목록',path:['영업관리','영업보고서','목록'],root:'#listScreen',specs:[
-{n:1,target:'1',anno:'flow',title:'목록 헤더',flowTo:'SCR-SRP-DTL-001',play:{selector:'#openRegister',label:'등록 화면 열기'},defs:[{t:'클릭 : 영업보고서 등록 이동'}]},
-{n:2,target:'2',anno:'input',title:'목록 검색',defs:[{t:'텍스트 기준 목록 검색 가능'}]},
-{n:3,target:'3',anno:'flow',title:'보고서 목록',flowTo:'SCR-SRP-DTL-002',play:{selector:'#reportRow',label:'조회 화면 열기'},defs:[{t:'담당부서와 담당자 컬럼 분리 표시'},{t:'담당자 : 선택된 담당자명 전체 표시'},{t:'행 클릭 : 영업보고서 조회 이동'}]},
-{n:4,target:'4',anno:'box',title:'페이지 이동',defs:[{t:'페이지 단위 목록 이동 가능'}]}
+{n:1,target:'1',anno:'flow',title:'영업보고서 목록 헤더',flowTo:'SCR-SRP-DTL-001',play:{selector:'#openRegister',label:'등록 화면 열기'},defs:[{t:'변경 없음 : 등록 클릭 시 영업보고서 등록 화면 이동'}]},
+{n:2,target:'2',anno:'input',title:'검색',defs:[{t:'변경 없음 : 기존 검색 기능 유지'}]},
+{n:3,target:'3',anno:'flow',title:'영업보고서 목록',flowTo:'SCR-SRP-DTL-002',play:{selector:'#reportRow',label:'조회 화면 열기'},defs:[{t:'TO-BE : 보고대상 컬럼을 담당부서와 담당자로 분리'},{t:'TO-BE : 복수 담당자명 전체 표시'},{t:'변경 없음 : 행 클릭 시 영업보고서 조회 화면 이동'}]},
+{n:4,target:'4',anno:'box',title:'페이지 이동',defs:[{t:'변경 없음 : 기존 페이지 이동 기능 유지'}]}
+]},
+{id:'SCR-SRP-DTL-004',name:'영업보고서 수정',path:['영업관리','영업보고서','조회','수정'],root:'#editScreen',specs:[
+{n:1,target:'1',anno:'input',title:'영업보고서 수정 정보',defs:[{t:'TO-BE : 제목과 특이사항만 수정 가능'},{t:'수정 불가 : 업무일·고객사·고객·담당부서·담당자·생성 조건'}]},
+{n:2,target:'2',anno:'box',title:'보고 대상 업무',defs:[{t:'수정 불가 : 등록 시 선택하여 저장된 업무 목록'},{t:'유지 : 조회 화면과 동일한 업무 항목 표시'}]},
+{n:3,target:'3',anno:'flow',title:'취소와 저장',flowTo:'SCR-SRP-DTL-002',defs:[{t:'취소 클릭 : 변경사항 미저장 후 조회 화면 이동'},{t:'저장 클릭 : 제목과 특이사항 저장 후 조회 화면 이동'}]}
 ]}
 ]};
 </script><script>
