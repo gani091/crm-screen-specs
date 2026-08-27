@@ -1,8 +1,17 @@
 {
   "feature": "sales-report-generation",
   "name": "영업보고서 생성 방법 개선",
-  "latest": "v2",
+  "latest": "v3",
   "versions": [
+    {
+      "version": "v3",
+      "status": "review",
+      "date": "2026-08-27",
+      "summary": "조회 모달 기본 크기와 내부 본문 스크롤 적용, 댓글 등록·삭제·PDF·수정 UI를 현행 CRM과 동일하게 반영",
+      "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003"],
+      "supersedes": "v2",
+      "path": "./v3/"
+    },
     {
       "version": "v2",
       "status": "review",
