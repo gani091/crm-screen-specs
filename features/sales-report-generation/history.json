@@ -7,7 +7,7 @@
       "version": "v7",
       "status": "review",
       "date": "2026-08-27",
-      "summary": "수정 화면 ID 추가, AS-IS 대비 TO-BE 변경 중심 기능 설명과 실제 화면 항목·마커 영역 정합화",
+      "summary": "수정 화면 마커 표시와 모달 내부 스크롤 추적 보정, 기능 설명을 수정·개선과 유지건 불렛으로 분리",
       "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003", "SCR-SRP-DTL-004"],
       "supersedes": "v6",
       "path": "./v7/"
