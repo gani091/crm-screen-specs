@@ -1,8 +1,17 @@
 {
   "feature": "sales-report-generation",
   "name": "영업보고서 생성 방법 개선",
-  "latest": "v4",
+  "latest": "v5",
   "versions": [
+    {
+      "version": "v5",
+      "status": "review",
+      "date": "2026-08-27",
+      "summary": "ScreenSpec 헤더와 모달 여백을 제외한 가시 높이로 등록 모달을 제한하고 본문 내부 스크롤을 보정",
+      "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003"],
+      "supersedes": "v4",
+      "path": "./v5/"
+    },
     {
       "version": "v4",
       "status": "review",
