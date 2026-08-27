@@ -1,0 +1,16 @@
+{
+  "feature": "sales-report-generation",
+  "name": "영업보고서 생성 방법 개선",
+  "latest": "v1",
+  "versions": [
+    {
+      "version": "v1",
+      "status": "review",
+      "date": "2026-08-27",
+      "summary": "복수 담당자·담당부서 조회, 유형별 보고 대상 선택, 판매 합계 정책을 반영한 화면정의서",
+      "screens": ["SCR-SRP-REG-001", "SCR-SRP-DTL-002"],
+      "supersedes": null,
+      "path": "./v1/"
+    }
+  ]
+}
