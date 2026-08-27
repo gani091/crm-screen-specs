@@ -7,7 +7,7 @@
       "version": "v7",
       "status": "review",
       "date": "2026-08-27",
-      "summary": "네 업무유형 합산 1건 이상 저장 조건과 영업2팀 0건 알림 확인 상태, 0건 영역 숨김, 수정 모달 담당부서·담당자 분리",
+      "summary": "조회·수정 카드 영역 UI 통일, 등록 결과의 상세보기·선택 건 탭·현재 결과 전체 선택 제거, 영업2팀 0건 알림 확인 상태",
       "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003"],
       "supersedes": "v6",
       "path": "./v7/"
