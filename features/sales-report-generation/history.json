@@ -1,8 +1,17 @@
 {
   "feature": "sales-report-generation",
   "name": "영업보고서 생성 방법 개선",
-  "latest": "v1",
+  "latest": "v2",
   "versions": [
+    {
+      "version": "v2",
+      "status": "review",
+      "date": "2026-08-27",
+      "summary": "기존 CRM UI를 유지한 목록·등록·조회 3화면, DATE PICKER·담당자 멀티 셀렉트·중복 예외·상세 정보와 의견 공유 반영",
+      "screens": ["SCR-SRP-DTL-001", "SCR-SRP-DTL-002", "SCR-SRP-DTL-003"],
+      "supersedes": "v1",
+      "path": "./v2/"
+    },
     {
       "version": "v1",
       "status": "review",
