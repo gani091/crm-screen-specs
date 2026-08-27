@@ -39,6 +39,7 @@ openRegister.onclick=()=>screen('#registerScreen','SCR-SRP-DTL-001');reportRow.o
 <script>
 const trashIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg>';
 const listDelete=document.createElement('button');listDelete.className='ghost delete-action';listDelete.setAttribute('aria-label','선택 삭제');listDelete.innerHTML=trashIcon;const listToolbar=document.querySelector('#listScreen .toolbar'),listHeader=document.querySelector('#listScreen .head');listToolbar.appendChild(listDelete);listToolbar.appendChild(openRegister);listHeader.classList.add('list-header');listHeader.appendChild(listToolbar);
+const listTable=document.querySelector('#listScreen .list'),targetHeader=listTable.querySelector('thead th:nth-child(8)');targetHeader.textContent='담당부서';targetHeader.insertAdjacentHTML('afterend','<th>담당자</th>');const listTargets=[{department:'사업전략팀',people:'김민수, 이서연'},{department:'-',people:'박지훈, 정유진, 최도윤'}];listTable.querySelectorAll('tbody tr').forEach((row,index)=>{const target=row.children[7],data=listTargets[index];if(!target||!data)return;target.textContent=data.department;target.insertAdjacentHTML('afterend',`<td>${data.people}</td>`)});
 const detailDelete=document.querySelector('#detailScreen .mfoot .ghost');detailDelete.classList.add('delete-action');detailDelete.setAttribute('aria-label','삭제');detailDelete.innerHTML=trashIcon;
 alertOk.onclick=()=>alertLayer.classList.remove('on');alertLayer.onclick=e=>{if(e.target===alertLayer)alertLayer.classList.remove('on')};
 saveBtn.onclick=()=>{if(!work.length){showAlert('조회된 데이터가 없습니다.');return}if(!count('전체',true)){showAlert('영업보고서에 포함할 업무를 1건 이상 선택해 주세요.');return}saved=work.filter(x=>x.selected).map(x=>({...x}));renderDetail();screen('#detailScreen','SCR-SRP-DTL-002')};
@@ -64,7 +65,7 @@ window.SCREENSPEC={baseViewport:'pc',devices:{pc:{w:1920,h:1080}},screens:[
 {id:'SCR-SRP-DTL-003',name:'영업보고서 목록',path:['영업관리','영업보고서','목록'],root:'#listScreen',specs:[
 {n:1,target:'1',anno:'flow',title:'목록 헤더',flowTo:'SCR-SRP-DTL-001',play:{selector:'#openRegister',label:'등록 화면 열기'},defs:[{t:'클릭 : 영업보고서 등록 이동'}]},
 {n:2,target:'2',anno:'input',title:'목록 검색',defs:[{t:'텍스트 기준 목록 검색 가능'}]},
-{n:3,target:'3',anno:'flow',title:'보고서 목록',flowTo:'SCR-SRP-DTL-002',play:{selector:'#reportRow',label:'조회 화면 열기'},defs:[{t:'보고대상 : 부서 또는 복수 담당자를 요약하여 표시'},{t:'행 클릭 : 영업보고서 조회 이동'}]},
+{n:3,target:'3',anno:'flow',title:'보고서 목록',flowTo:'SCR-SRP-DTL-002',play:{selector:'#reportRow',label:'조회 화면 열기'},defs:[{t:'담당부서와 담당자 컬럼 분리 표시'},{t:'담당자 : 선택된 담당자명 전체 표시'},{t:'행 클릭 : 영업보고서 조회 이동'}]},
 {n:4,target:'4',anno:'box',title:'페이지 이동',defs:[{t:'페이지 단위 목록 이동 가능'}]}
 ]}
 ]};
